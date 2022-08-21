@@ -1,13 +1,13 @@
 ARG TERRAFORM_VERSION=v1.2
-FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v1.2.1-alpine
+FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v1.4.0-fedora
 
 ARG TARGETPLATFORM
 
 ## AWS cli
-RUN sudo apk add --no-cache \
+RUN sudo dnf install -y \
         python3 \
-        py3-pip \
+        python3-pip \
     && sudo pip3 install --upgrade pip \
     && sudo pip3 install awscli \
-    && sudo rm -rf /var/cache/apk/* \
+    && sudo dnf clean all \
     && aws --version
