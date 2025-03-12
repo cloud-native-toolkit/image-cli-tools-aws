@@ -1,13 +1,14 @@
-ARG TERRAFORM_VERSION=v1.2
-FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v1.6.1-alpine
+ARG TERRAFORM_VERSION=v1.9
+FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v2.0.2-alpine
 
 ARG TARGETPLATFORM
 
+USER root
+
 ## AWS cli
-RUN sudo apk add --no-cache \
-        python3 \
-        py3-pip \
-    && sudo pip3 install --upgrade pip \
-    && sudo pip3 install awscli \
-    && sudo rm -rf /var/cache/apk/* \
-    && aws --version
+RUN apk add --no-cache --force-broken-world \
+        aws-cli && \
+    rm -rf /var/cache/apk/* && \
+    aws --version
+
+USER devops
